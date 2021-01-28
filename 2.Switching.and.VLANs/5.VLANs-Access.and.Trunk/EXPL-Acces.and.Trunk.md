@@ -35,4 +35,5 @@ Switch(config-if) switchport mode trunk
 
 
 ```
-
+Access VLANs can only carry one VLAN (5 in this case)
+The link between Switch2 and Switch1 requires a trunk port to carry more than one VLAN on G0/1
