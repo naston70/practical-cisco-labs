@@ -1,4 +1,4 @@
-#Exercise Commands
+Exercise Commands
 
 
 ```
@@ -68,7 +68,8 @@ S1(config-if)#switchport mode trunk
 =========================================
 Switch2
 =========================================
-S2(config)#interface range GigabitEthernet 0/1-2 S2(config-if-range)#switchport mode trunk
+S2(config)#interface range GigabitEthernet 0/1-2 
+S2(config-if-range)#switchport mode trunk
 S2(config-if-range)#
 =========================================
 
