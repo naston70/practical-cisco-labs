@@ -1,6 +1,6 @@
 #### STP - Spanning Tree Protocol (802.1D)
 
-STP states do not change the other information about the interface: connected/ not connected and operationa state - access or trunk, it only addes an additional STP state
+STP states do not change the other information about the interface: connected/ not connected and operational state - access or trunk, it only adds an additional STP state
 
 
 
