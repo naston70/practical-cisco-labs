@@ -72,6 +72,18 @@ After a change is made a network will take 30-50 seconds to converge. In order t
 
 A network that uses RSTP ill converge faster but it still depends on the size of the network.
 
+This can be enabled with just one command:
+```
+Switch(config)# spanning-tree mode rapid-pvst
+```
+
+Additionaly, another thing that will speed things up is the use of Portfast. As an administrator, for ports that will definitely not be in a loop (such as a printer under normal circumstances) the ports can be configured to converge faster. If it is known that a loop is not possible on a given interface it can simply skip the process and send the port into forwarding state right away.
+
+```
+Switch(config)# spanning-tree portfast
+```
+
+
 
 
 
