@@ -24,3 +24,26 @@ Rapid PVST+: Cisco’s version of RSTP that also uses PVST+ and provides a separ
 **Alternate Port** - corresponds to the BLOCKING state of 802.1d (STP), and is used with the newer802.1w (Rapid STP). An alternate port is located on a switch connected to a LAN segment with two or more switches connected, where one if the other switches holds the DP. Alternate port is backup for RP.
 
 **Backup Port** - also corresponds to the blcoking state of 802.1d, and is a term now used with the newer 802.1w (RSTP) A backup port is connected to a LAN segment where another port on that switch is acting as the DP. Backup port is backup for the DP.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#### STP port states
+
+**Forwarding state** - use the interface as normal
+
+**Blocking state** - block all user traffic, do not send or receive user traffic on that interface (in that VLAN) except STP messages. (+overhead)
+
+**Disabled state** - tecnically not a transition state, a port in the administravitely disabled state doesnt participate in frame forwarding or STP.
+
+**Listening state** - listens to BPDUs to make sure no loops occur on the network before passing data frames. A port in listening state prepares to forward data frames without populating the MAC address table. Old MAC addresses are removed from the table during this state. Switches populate MAC address tables in learning and forwarding modes only.
+
+**Learning state** - listens to BPDUs and learns all the paths in the switched network. A port in learning state populates the MAC address table but still does not forwad the frame. 'Forward Delay' refers to the time it takes to transition a port from listening mode to learning mode, which is set to 15 secs by default. This can be seen using the command ```#show spanning-tree```
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+'Working' ports/interfaces (in a connected state) are all interfaces that **could** forward frames if STP placed them into a forwarding state. Failed interfaces or administratively shutdown interfaces are placed into an STP disabled state. 
+
+'Port Cost' determines the best path when multiple links are used between two swtiches. the cost of the link is determined by its bandwidth
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#### STP steps:
+
+1. 
