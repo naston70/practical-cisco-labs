@@ -46,4 +46,81 @@ Rapid PVST+: Cisco’s version of RSTP that also uses PVST+ and provides a separ
 
 #### STP steps:
 
-1. 
+1. STP ELECTS A ROOT SWITCH (ROOT BRIDGE - RB) The switch with the lowest BID value (priority) ecomes the RB. ALl 'working' interfaces on the root switch become Designated ports (DPs)
+
+2. EACH NONOROOT BRIDGE CHOOSES ITS ROOT PORT - The lowest cost interface to reach th RB through. Root switches dont have RPs. Each switch in a given network has exactly one root port per VLAN. RB will send 'Root Cost = 0' in Hello packets
+
+3. DESIGNATED PORT ELECTION: On each network segment (link), the port that advertises the lowest price to RB becomes the DP. ALl other ports in that segment will, if theyre not RP, become non-designated port and theyll be put into either a blocking or discarding mode.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#### How STP works in a steady-state (nothing changing in the topology)
+
+1. The root creates and sends a Hello BPDU, with a root cost of 0 out all its forwarding interface
+
+2. The non root switches receive the Hello on their root ports. After changing the Hello to list their own BID as the senders BID and listing their own root cost, the switch forwards the Hello out all designated ports.
+
+3. Repeat until something changes.
+
+When a switch ceases to receive Hellos or receives a changed Hello -> something has failed -> the switch starts the process of changing the spanning-tree topology
+
+If an interface fails on a swtich, the switch can assume the Hellos wont be arriving in that interface anymore.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#### Hello BPDU fields
+
+1. Root Bridge ID -> BID of the switch that the sender of this Hello beleives to currently be the root switch
+
+2. Senders BID -> BID of the switch sending the Hello BPDU
+
+3. Senders ROOT COST -> STP cost between this switch and the current root
+
+4. Timer values on the RB ->Hello timer, MaxAge and Forward delay timer
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#### STP timers (RB dictates timers)
+
+1. Hello (2 secs): the time period between Hellos created by the root
+
+2. MaxAge (10 Hello's): how long any switch should wait after ceasing to hear Hello's before trying to change STP topology
+
+3. Forward Delay (15 secs): when an interface canges from blocking to forwarding state, a port styas in an interim, listening state and then an interim learning state for 'forward delay' number of seconds. This prevents temporary loops.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#### RSTP - RAPID STP
+
+− RSTP calls the blocking state “the discarding state”
+
+− STP converges in 50 seconds (by default), RSTP converges within a few seconds, and in slow
+conditions, in about 10 seconds
+
+− In RSTP, MaxAge is 3 times Hello
+
+− RSTP Alternate Ports are the switch’s other ports that could be used as a Root Port if the existing RP
+ever fails. To become an alternate port, an interface must receive Hellos that identify the same root switch (RB) as the root port. The alternate port can take over for the former RP very rapidly, without waiting in other interim STP states (listening, learning). There are no timers, the change (convergence) happens within a second
+
+− RSTP Backup Port replaces a designated port when a DP fails. This is only needed in a network where a switch connects two ports to a Hub
+
+− RSTP port types:
+1) point-to-point ports -> ports that connect two switches;
+
+2) point-to-point edge ports -> ports that connect to a single endpoint device at the edge of a
+network, like PCs and servers;
+
+3) shared ports -> ports connected to a hub (half duplex).
+Both 1) and 2) are full duplex.
+
+
+Portfast: allows a switch to immediately transition from blocking to forwarding, bypassing listening and learning states. Should only be enabled on ports where no other bridges, switches, or other STP-speaking devices will be connected. If enabled, the port will move to an STP forwarding state and forward traffic as soon as the NIC is active on the end device connected to the port.
+BPDU guard: disables a port if any BPDUs are received on the port. Should only be enabled on access/Portfast interfaces.
+
+
+
+
+
+
+
+
+
+
+
+
