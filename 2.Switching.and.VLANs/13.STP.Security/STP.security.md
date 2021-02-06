@@ -39,7 +39,7 @@ Root guard enabled ports can still receive and send BPDU messages, but will bloc
 
 ```
 Switch(config)# spanning-tree guard root
-```
+``
 
 
 
